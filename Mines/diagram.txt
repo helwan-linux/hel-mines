@@ -1,0 +1,12 @@
+https://github.com/helwan-linux/hel-mines
+
+
+📁 Mines/
+├── 📄 helwan-mines.desktop
+├── 📄 icon.png
+├── 📄 logic.c
+├── 📄 logic.h
+├── 📄 main.c
+├── 📄 style.css
+├── 📄 ui.c
+└── 📄 ui.h

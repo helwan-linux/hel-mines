@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=2.0
+Type=Application
+Name=Helwan Mines Pro
+Comment=Modern Minesweeper with Data Decay for Helwan Linux
+# تأكد من كتابة المسار الكامل للمجلد الذي يحتوي على البرنامج
+Exec=/home/sma/Mines/helwan_mines_pro
+Icon=/home/sma/Mines/icon.png
+Terminal=false
+Categories=Game;LogicGame;
+Keywords=minesweeper;helwan;logic;
+StartupNotify=true

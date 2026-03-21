@@ -1,0 +1,41 @@
+/* الخلفية العامة للعبة (Nordic Dark Blue) */
+window { 
+    background-color: #2e3440;
+    color: #eceff4;
+}
+
+/* الأزرار قبل الكشف */
+button { 
+    background-image: none;
+    background-color: #4c566a; /* لون المربعات غير المكتشفة */
+    color: white;
+    border-radius: 4px;
+    border: 1px solid #3b4252;
+    transition: all 0.2s ease-in-out;
+}
+button:hover { 
+    background-color: #5e81ac; /* لون عند مرور الماوس */
+}
+
+/* الأزرار بعد الكشف */
+.revealed { 
+    background-color: #3b4252;
+    border: 1px solid #4c566a;
+}
+
+/* شكل الألغام (Anomalies) */
+.mine-anomaly { 
+    background-color: #bf616a; /* لون أحمر/برتقالي عند الانفجار */
+    color: white;
+    font-size: 1.2em;
+}
+
+/* شكل المربعات الفارغة الممسوحة */
+.empty-scanned { 
+    background-color: #2e3440;
+    color: #88c0d0; /* لون أزرق جليدي خفيف */
+}
+
+/* تلوين الأرقام المألوف */
+.number-1 { color: #ebcb8b; }
+.number-2 { color: #a3be8c; }
