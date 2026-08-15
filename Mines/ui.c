@@ -4,6 +4,7 @@
 
 static void on_click(GtkWidget *widget, gpointer user_data);
 static gboolean on_button_press(GtkWidget *widget, GdkEventButton *event, gpointer user_data);
+static void update_ui(GameData *data);
 
 // دالة تطبيق الثيمات مع دعم المسار المحلي ومسار النظام الرسمي
 static void apply_css_theme(const char *filename, GameData *data) {
@@ -43,6 +44,36 @@ static void set_theme_nord(GtkWidget *w, gpointer data) {
 
 static void set_theme_matrix(GtkWidget *w, gpointer data) {
     apply_css_theme("style_matrix.css", (GameData*)data);
+}
+
+// دالة الديمو الكاملة (يقوم الكمبيوتر بالحل وإظهار الفوز مع إمكانية إعادة التشغيل من الصفر)
+static void run_demo(GtkWidget *widget, gpointer user_data) {
+    GameData *data = (GameData*)user_data;
+    if (data->timer_id > 0) {
+        g_source_remove(data->timer_id);
+        data->timer_id = 0;
+    }
+    
+    for (int i = 0; i < data->rows; i++) {
+        for (int j = 0; j < data->cols; j++) {
+            if (!data->board[i][j].is_mine) {
+                reveal_cell(data->board, data->rows, data->cols, i, j);
+            } else {
+                data->board[i][j].is_flagged = true;
+            }
+        }
+    }
+    
+    update_ui(data);
+
+    GtkWidget *dialog = gtk_message_dialog_new(GTK_WINDOW(data->window), 
+        GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_YES_NO, 
+        "🤖 Demo Mode: الكمبيوتر قام بحل اللعبة وفاز!\nهل تريد بدء لعبة جديدة من الصفر؟");
+    
+    if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_YES) {
+        reset_game(data);
+    }
+    gtk_widget_destroy(dialog);
 }
 
 static gboolean hide_label_timeout(gpointer button) {
@@ -299,11 +330,13 @@ void create_window(int argc, char *argv[]) {
     gtk_menu_shell_append(GTK_MENU_SHELL(diff_menu), med_item);
     gtk_menu_shell_append(GTK_MENU_SHELL(diff_menu), hard_item);
 
-    // Tools Submenu
+    // Tools Submenu (مضاف إليها زر الـ Auto Demo بجانب Ping Scan)
     GtkWidget *tools_menu = gtk_menu_new();
     GtkWidget *ping_item = gtk_menu_item_new_with_label("Ping Scan (Hint)");
+    GtkWidget *demo_item = gtk_menu_item_new_with_label("Auto Demo (AI Solve)");
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(tools_mi), tools_menu);
     gtk_menu_shell_append(GTK_MENU_SHELL(tools_menu), ping_item);
+    gtk_menu_shell_append(GTK_MENU_SHELL(tools_menu), demo_item);
 
     // Themes Submenu
     GtkWidget *theme_menu = gtk_menu_new();
@@ -331,6 +364,7 @@ void create_window(int argc, char *argv[]) {
     g_signal_connect(med_item, "activate", G_CALLBACK(set_difficulty_medium), data);
     g_signal_connect(hard_item, "activate", G_CALLBACK(set_difficulty_hard), data);
     g_signal_connect(ping_item, "activate", G_CALLBACK(use_ping_scan), data);
+    g_signal_connect(demo_item, "activate", G_CALLBACK(run_demo), data);
     g_signal_connect(classic_item, "activate", G_CALLBACK(set_theme_classic), data);
     g_signal_connect(nord_item, "activate", G_CALLBACK(set_theme_nord), data);
     g_signal_connect(matrix_item, "activate", G_CALLBACK(set_theme_matrix), data);
