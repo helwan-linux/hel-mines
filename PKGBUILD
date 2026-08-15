@@ -1,7 +1,7 @@
 # Maintainer: Saeed Badreldin <helwanlinux@gmail.com>
 pkgname=hel-mines
 pkgver=1.1
-pkgrel=2
+pkgrel=3
 pkgdesc="Professional Minesweeper with Data Decay mechanics for Helwan Linux"
 arch=('x86_64')
 url="https://github.com/helwan-linux/hel-mines"
