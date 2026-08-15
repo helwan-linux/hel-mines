@@ -2,6 +2,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Forward declarations للدوال عشان الـ Compiler يشوفها قبل ما يستخدمها في create_window
+static void set_theme_classic(GtkWidget *w, gpointer data);
+static void set_theme_nord(GtkWidget *w, gpointer data);
+static void set_theme_matrix(GtkWidget *w, gpointer data);
+static void apply_css_theme(const char *filename, GameData *data);
+
 static void on_click(GtkWidget *widget, gpointer user_data);
 static gboolean on_button_press(GtkWidget *widget, GdkEventButton *event, gpointer user_data);
 
