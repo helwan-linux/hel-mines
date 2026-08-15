@@ -2,16 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Forward declarations للدوال عشان الـ Compiler يشوفها قبل ما يستخدمها في create_window
-static void set_theme_classic(GtkWidget *w, gpointer data);
-static void set_theme_nord(GtkWidget *w, gpointer data);
-static void set_theme_matrix(GtkWidget *w, gpointer data);
-static void apply_css_theme(const char *filename, GameData *data);
-
 static void on_click(GtkWidget *widget, gpointer user_data);
 static gboolean on_button_press(GtkWidget *widget, GdkEventButton *event, gpointer user_data);
 
-// دالة تطبيق وتغيير الثيم ديناميكياً
+// دالة تطبيق الثيمات مع دعم المسار المحلي ومسار النظام الرسمي
 static void apply_css_theme(const char *filename, GameData *data) {
     GtkCssProvider *provider = gtk_css_provider_new();
     GdkDisplay *display = gdk_display_get_default();
@@ -22,14 +16,11 @@ static void apply_css_theme(const char *filename, GameData *data) {
         GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
     char filepath[256];
-    
-    // فحص هل الملف موجود محلياً في مجلد التشغيل الحالي؟
     FILE *f = fopen(filename, "r");
     if (f) {
         fclose(f);
         snprintf(filepath, sizeof(filepath), "%s", filename);
     } else {
-        // لو مش محلي، يبقى نقرأه من مسار التثبيت الرسمي للنظام
         snprintf(filepath, sizeof(filepath), "/usr/share/hel-mines/%s", filename);
     }
 
@@ -40,6 +31,28 @@ static void apply_css_theme(const char *filename, GameData *data) {
         g_error_free(error);
     }
     g_object_unref(provider);
+}
+
+static void set_theme_classic(GtkWidget *w, gpointer data) {
+    apply_css_theme("style_classic.css", (GameData*)data);
+}
+
+static void set_theme_nord(GtkWidget *w, gpointer data) {
+    apply_css_theme("style_nord.css", (GameData*)data);
+}
+
+static void set_theme_matrix(GtkWidget *w, gpointer data) {
+    apply_css_theme("style_matrix.css", (GameData*)data);
+}
+
+static gboolean hide_label_timeout(gpointer button) {
+    if (GTK_IS_BUTTON(button)) {
+        const gchar *current_label = gtk_button_get_label(GTK_BUTTON(button));
+        if (current_label && current_label[0] != '.' && current_label[0] != '\0') {
+            gtk_button_set_label(GTK_BUTTON(button), "."); 
+        }
+    }
+    return FALSE; 
 }
 
 static void update_status_labels(GameData *data) {
@@ -327,7 +340,7 @@ void create_window(int argc, char *argv[]) {
     data->status_label = gtk_label_new("");
     gtk_box_pack_start(GTK_BOX(vbox), data->status_label, FALSE, FALSE, 10);
 
-    // جعل الثيم الافتراضي هو الكلاسيكي العادي بخطوط سوداء واضحة عند البدء
+    // تحميل الثيم الكلاسيكي عند البداية
     apply_css_theme("style_classic.css", data);
 
     // بناء اللوحة الأولية
