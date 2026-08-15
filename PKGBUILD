@@ -1,7 +1,7 @@
 # Maintainer: Saeed Badreldin <helwanlinux@gmail.com>
 pkgname=hel-mines
-pkgver=1.0
-pkgrel=1
+pkgver=1.1
+pkgrel=2
 pkgdesc="Professional Minesweeper with Data Decay mechanics for Helwan Linux"
 arch=('x86_64')
 url="https://github.com/helwan-linux/hel-mines"
@@ -32,6 +32,8 @@ package() {
   # 3. تثبيت ملف الـ Desktop
   install -Dm644 "helwan-mines.desktop" "${pkgdir}/usr/share/applications/${pkgname}.desktop"
 
-  # 4. تثبيت ملف الـ CSS
-  install -Dm644 "style.css" "${pkgdir}/usr/share/${pkgname}/style.css"
+  # 4. تثبيت ملفات الثيمات الثلاثة (Classic, Nordic, Matrix)
+  install -Dm644 "style_classic.css" "${pkgdir}/usr/share/${pkgname}/style_classic.css"
+  install -Dm644 "style_nord.css" "${pkgdir}/usr/share/${pkgname}/style_nord.css"
+  install -Dm644 "style_matrix.css" "${pkgdir}/usr/share/${pkgname}/style_matrix.css"
 }
