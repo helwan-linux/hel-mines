@@ -15,35 +15,25 @@ static void apply_css_theme(const char *filename, GameData *data) {
         GTK_STYLE_PROVIDER(provider), 
         GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
+    char filepath[256];
+    
+    // فحص هل الملف موجود محلياً في مجلد التشغيل الحالي؟
+    FILE *f = fopen(filename, "r");
+    if (f) {
+        fclose(f);
+        snprintf(filepath, sizeof(filepath), "%s", filename);
+    } else {
+        // لو مش محلي، يبقى نقرأه من مسار التثبيت الرسمي للنظام
+        snprintf(filepath, sizeof(filepath), "/usr/share/hel-mines/%s", filename);
+    }
+
     GError *error = NULL;
-    gtk_css_provider_load_from_path(provider, filename, &error);
+    gtk_css_provider_load_from_path(provider, filepath, &error);
     if (error) {
-        g_warning("Failed to load CSS: %s", error->message);
+        g_warning("Failed to load CSS from %s: %s", filepath, error->message);
         g_error_free(error);
     }
     g_object_unref(provider);
-}
-
-static void set_theme_classic(GtkWidget *w, gpointer data) {
-    apply_css_theme("style_classic.css", (GameData*)data);
-}
-
-static void set_theme_nord(GtkWidget *w, gpointer data) {
-    apply_css_theme("style_nord.css", (GameData*)data);
-}
-
-static void set_theme_matrix(GtkWidget *w, gpointer data) {
-    apply_css_theme("style_matrix.css", (GameData*)data);
-}
-
-static gboolean hide_label_timeout(gpointer button) {
-    if (GTK_IS_BUTTON(button)) {
-        const gchar *current_label = gtk_button_get_label(GTK_BUTTON(button));
-        if (current_label && current_label[0] != '.' && current_label[0] != '\0') {
-            gtk_button_set_label(GTK_BUTTON(button), "."); 
-        }
-    }
-    return FALSE; 
 }
 
 static void update_status_labels(GameData *data) {
