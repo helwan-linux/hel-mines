@@ -1,0 +1,30 @@
+window { 
+    background-color: #2e3440;
+    color: #eceff4;
+}
+button { 
+    background-image: none;
+    background-color: #4c566a; 
+    color: white;
+    border-radius: 4px;
+    border: 1px solid #3b4252;
+    transition: all 0.2s ease-in-out;
+}
+button:hover { 
+    background-color: #5e81ac; 
+}
+.revealed { 
+    background-color: #3b4252;
+    border: 1px solid #4c566a;
+}
+.mine-anomaly { 
+    background-color: #bf616a; 
+    color: white;
+    font-size: 1.2em;
+}
+.empty-scanned { 
+    background-color: #2e3440;
+    color: #88c0d0; 
+}
+.number-1 { color: #ebcb8b; }
+.number-2 { color: #a3be8c; }

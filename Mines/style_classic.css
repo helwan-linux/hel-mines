@@ -1,0 +1,30 @@
+window { 
+    background-color: #f0f0f0;
+    color: #2e3440;
+}
+button { 
+    background-image: none;
+    background-color: #e1e1e1; 
+    color: #2e3440; /* لون الخط أسود/داكن وواضح */
+    border-radius: 4px;
+    border: 1px solid #bcbcbc;
+    transition: all 0.2s ease-in-out;
+}
+button:hover { 
+    background-color: #d0d0d0; 
+}
+.revealed { 
+    background-color: #ffffff;
+    border: 1px solid #dcdcdc;
+}
+.mine-anomaly { 
+    background-color: #cc0000; 
+    color: white;
+    font-size: 1.2em;
+}
+.empty-scanned { 
+    background-color: #f0f0f0;
+    color: #0044aa; 
+}
+.number-1 { color: #0000ff; }
+.number-2 { color: #008800; }

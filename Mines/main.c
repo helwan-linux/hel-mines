@@ -1,4 +1,9 @@
 //gcc main.c logic.c ui.c -o helwan_mines_pro `pkg-config --cflags --libs gtk+-3.0 gdk-pixbuf-2.0`
+
+/*
+ * gcc main.c logic.c ui.c -o helwan_mines_pro `pkg-config --cflags --libs gtk+-3.0 gdk-pixbuf-2.0`
+./helwan_mines_pro
+*/
 #include "ui.h"
 
 int main(int argc, char *argv[]) {

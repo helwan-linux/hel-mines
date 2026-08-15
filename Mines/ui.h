@@ -6,15 +6,24 @@
 
 typedef struct {
     GtkWidget *window;
-    GtkWidget *buttons[ROWS][COLS];
+    GtkWidget *buttons[MAX_ROWS][MAX_COLS];
     GtkWidget *status_label;
+    GtkWidget *score_label;
     GtkWidget *grid;
-    Cell board[ROWS][COLS];
+    Cell board[MAX_ROWS][MAX_COLS];
+    int rows;
+    int cols;
+    int mines;
     int time_left;
-    guint timer_id; // لإدارة المؤقت
+    int score;
+    int high_score;
+    int pings_left;
+    bool flag_mode;
+    guint timer_id;
+    Difficulty current_difficulty;
 } GameData;
 
 void create_window(int argc, char *argv[]);
-void reset_game(GameData *data); // خاصية الـ Restart
+void reset_game(GameData *data);
 
 #endif
